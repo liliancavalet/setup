@@ -73,3 +73,11 @@ sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.
 sudo git clone https://github.com/spaceship-prompt/spaceship-prompt.git "$ZSH_CUSTOM/themes/spaceship-prompt" --depth=1
 sudo ln -s "$ZSH_CUSTOM/themes/spaceship-prompt/spaceship.zsh-theme" "$ZSH_CUSTOM/themes/spaceship.zsh-theme"
 
+echo '******** HUGO INSTALLATION ********'
+echo "What Hugo version do you desire? (x.xxx.x)"
+read hugo_version
+curl -LO https://github.com/gohugoio/hugo/releases/download/v"$hugo_version"/hugo_"$hugo_version"_linux-amd64.tar.gz
+tar -zxvf hugo_"$hugo_version"_linux-amd64.tar.gz
+sudo mv hugo /usr/local/bin
+hugo -version
+rm -rf hugo_"$hugo_version"_linux-amd64.tar.gz
