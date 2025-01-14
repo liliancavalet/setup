@@ -1,4 +1,8 @@
+#!/bin/bash
 sudo apt update && upgrade
+
+echo '******** GEDIT INSTALLATION ********'
+sudo apt install gedit -y
 
 echo '******** VIM INSTALLATION ********'
 sudo apt install vim -y
@@ -48,12 +52,30 @@ sdk install java java_version
 echo '******** INTELLIJ INSTALLATION ********'
 sudo snap install intellij-idea-community --classic
 
+echo '******** ZOOM INSTALLATION ********'
+sudo snap install zoom-client
+
+echo '******** DOCKER ENGINE INSTALLATION ********'
+# Add Docker's official GPG key:
+sudo apt-get update
+sudo apt-get install ca-certificates curl
+sudo install -m 0755 -d /etc/apt/keyrings
+sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+sudo chmod a+r /etc/apt/keyrings/docker.asc
+
+# Add the repository to Apt sources:
+echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
+  $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
+  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+sudo apt-get update
+
+sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin -y
+sudo groupadd docker
+sudo usermod -aG docker $USER
+
 echo '******** VSCode INSTALLATION AND CONFIGURATION ********'
-sudo apt install software-properties-common apt-transport-https wget -y
-wget -O- https://packages.microsoft.com/keys/microsoft.asc | sudo gpg --dearmor | sudo tee /usr/share/keyrings/vscode.gpg
-echo deb [arch=amd64 signed-by=/usr/share/keyrings/vscode.gpg] https://packages.microsoft.com/repos/vscode stable main | sudo tee /etc/apt/sources.list.d/vscode.list
-sudo apt update
-sudo apt install code
+sudo snap install code --classic
 
 echo 'Extensions:'
 echo 'Prettier code formatter' 
@@ -68,10 +90,11 @@ code --install-extension foxundermoon.shell-format
 code --install-extension yzhang.markdown-all-in-one
 
 echo '******** Z SHELL INSTALLATION AND CONFIGURATION ********'
-sudo apt-get install zsh -y
+sudo apt install zsh -y
 sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" -y
-sudo git clone https://github.com/spaceship-prompt/spaceship-prompt.git "$ZSH_CUSTOM/themes/spaceship-prompt" --depth=1
-sudo ln -s "$ZSH_CUSTOM/themes/spaceship-prompt/spaceship.zsh-theme" "$ZSH_CUSTOM/themes/spaceship.zsh-theme"
+chsh -s $(which zsh)
+git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
+export ZSH_THEME="powerlevel10k/powerlevel10k"
 
 echo '******** HUGO INSTALLATION ********'
 echo "What Hugo version do you desire? (x.xxx.x)"
