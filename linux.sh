@@ -74,6 +74,17 @@ sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin 
 sudo groupadd docker
 sudo usermod -aG docker $USER
 
+echo '******** NVM INSTALLATION AND CONFIGURATION ********'
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
+source ~/.bashrc   # Or ~/.zshrc if you're using Zsh
+nvm --version
+
+echo '******** NODE INSTALLATION AND CONFIGURATION ********'
+nvm ls-remote
+echo "What Node version do you want to install? (ex.: v22.13.0)"
+read node_version
+nvm install node_version
+
 echo '******** VSCode INSTALLATION AND CONFIGURATION ********'
 sudo snap install code --classic
 
